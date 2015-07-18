@@ -33,6 +33,7 @@ type Cfg struct {
 	Sample     Sample
 	Fitness    Fitness
 	Output     Output
+	Linkage    Linkage
 }
 
 func (c Cfg) String() string {
@@ -43,6 +44,7 @@ func (c Cfg) String() string {
 	fmt.Fprintln(&b, c.Sample)
 	fmt.Fprintln(&b, c.Fitness)
 	fmt.Fprintln(&b, c.Output)
+	fmt.Fprintln(&b, c.Linkage)
 	return b.String()
 }
 
@@ -112,6 +114,17 @@ type Fitness struct {
 	Scale   float64
 	Shape   float64
 	Coupled int
+}
+
+type Linkage struct {
+	Size int
+}
+
+func (l Linkage) String() string {
+	var b bytes.Buffer
+	fmt.Fprintf(&b, "[linkage]\n")
+	fmt.Fprintf(&b, "size = %d\n", l.Size)
+	return b.String()
 }
 
 type Output struct {
@@ -242,6 +255,10 @@ func create(ps ParamSet, prefix string) (cs []Cfg) {
 															Prefix: fmt.Sprintf("%s_individual_%d", prefix, count),
 														}
 
+														lin := Linkage{
+															Size: transferFrag,
+														}
+
 														cfg := Cfg{
 															Population: pop,
 															Mutation:   mut,
@@ -249,6 +266,7 @@ func create(ps ParamSet, prefix string) (cs []Cfg) {
 															Sample:     smp,
 															Fitness:    fit,
 															Output:     out,
+															Linkage:    lin,
 														}
 
 														cs = append(cs, cfg)
