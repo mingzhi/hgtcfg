@@ -140,12 +140,14 @@ var prefix string
 var nodes int
 var ppn int
 var walltime int
+var factor int
 
 func init() {
 	flag.StringVar(&prefix, "prefix", "test", "prefix")
 	flag.IntVar(&nodes, "nodes", 1, "nodes")
 	flag.IntVar(&ppn, "ppn", 20, "ppn")
 	flag.IntVar(&walltime, "walltime", 48, "walltime in hours")
+	flag.IntVar(&factor, "factor", 1, "factor multiple to generations")
 	flag.Parse()
 	if flag.NArg() <= 0 {
 		fmt.Println("need config file!")
@@ -203,9 +205,9 @@ func create(ps ParamSet, prefix string) (cs []Cfg) {
 														}
 
 														if ps.Model > 0 {
-															pop.Generation = pop.Size * 10
+															pop.Generation = pop.Size * factor
 														} else {
-															pop.Generation = pop.Size * pop.Size * 10
+															pop.Generation = pop.Size * pop.Size * factor
 														}
 
 														// create mutation
