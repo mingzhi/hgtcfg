@@ -309,6 +309,11 @@ func writePbs(c Cfg) {
 	}
 	defer w.Close()
 
+	wd, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
+
 	w.WriteString("#!/bin/bash\n")
 	w.WriteString(fmt.Sprintf("#PBS -N %s\n", c.Output.Prefix))
 	w.WriteString(fmt.Sprintf("#PBS -l nodes=%d:ppn=%d\n", nodes, ppn))
@@ -316,6 +321,7 @@ func writePbs(c Cfg) {
 	w.WriteString(fmt.Sprintf("#PBS -M ml3365@nyu.edu\n"))
 	w.WriteString(fmt.Sprintf("#PBS -m bea\n"))
 	w.WriteString(fmt.Sprintf("module load openmpi/intel/1.6.5\n"))
+	w.WriteString(fmt.Sprintf("cd %s\n", wd))
 	w.WriteString(fmt.Sprintf("mpirun -n %d hgt_mpi_moran_const -C %s\n", ppn*nodes, c.Output.Prefix+".cfg.ini"))
 }
 
