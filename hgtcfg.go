@@ -42,7 +42,7 @@ func (c Cfg) String() string {
 	fmt.Fprintln(&b, c.Transfer)
 	fmt.Fprintln(&b, c.Sample)
 	fmt.Fprintln(&b, c.Fitness)
-	fmt.Fscanln(&b, c.Output)
+	fmt.Fprintln(&b, c.Output)
 	return b.String()
 }
 
