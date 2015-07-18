@@ -1,0 +1,17 @@
+{
+	"Sizes": [100],
+	"Lengths": [1000],
+	"MutationRates": [0.001],
+	"TransferRates": [0.001],
+	"TransferFrags": [10],
+	"TransferDists": [0],
+	"SampleSizes": [100],
+	"SampleTimes": [10],
+	"SampleRepls": [1],
+	"Samplemaxls": [100],
+	"FitnessRates": [0.1],
+	"FitnessScales": [0.01],
+	"FitnessShapes": [0],
+	"FitnessCoupled": 1,
+	"Model": 0
+}
