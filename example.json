@@ -8,7 +8,7 @@
 	"SampleSizes": [100],
 	"SampleTimes": [10],
 	"SampleRepls": [1],
-	"Samplemaxls": [100],
+	"SampleMaxls": [100],
 	"FitnessRates": [0.1],
 	"FitnessScales": [0.01],
 	"FitnessShapes": [0],
