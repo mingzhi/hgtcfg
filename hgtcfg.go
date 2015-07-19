@@ -18,7 +18,7 @@ type ParamSet struct {
 	SampleSizes    []int
 	SampleTimes    []int
 	SampleRepls    []int
-	Samplemaxls    []int
+	CovMaxls       []int
 	FitnessRates   []float64
 	FitnessScales  []float64
 	FitnessShapes  []float64
@@ -34,6 +34,7 @@ type Cfg struct {
 	Fitness    Fitness
 	Output     Output
 	Linkage    Linkage
+	Cov        Cov
 }
 
 func (c Cfg) String() string {
@@ -45,6 +46,18 @@ func (c Cfg) String() string {
 	fmt.Fprintln(&b, c.Fitness)
 	fmt.Fprintln(&b, c.Output)
 	fmt.Fprintln(&b, c.Linkage)
+	fmt.Fprintln(&b, c.Cov)
+	return b.String()
+}
+
+type Cov struct {
+	Maxl int
+}
+
+func (c Cov) String() string {
+	var b bytes.Buffer
+	fmt.Fprintf(&b, "[cov]\n")
+	fmt.Fprintf(&b, "maxl = %d\n", c.Maxl)
 	return b.String()
 }
 
@@ -96,7 +109,6 @@ type Sample struct {
 	Size       int
 	Time       int
 	Replicates int
-	Maxl       int
 }
 
 func (s Sample) String() string {
@@ -105,7 +117,6 @@ func (s Sample) String() string {
 	fmt.Fprintf(&b, "size = %d\n", s.Size)
 	fmt.Fprintf(&b, "time = %d\n", s.Time)
 	fmt.Fprintf(&b, "replicates = %d\n", s.Replicates)
-	fmt.Fprintf(&b, "maxl = %d\n", s.Maxl)
 	return b.String()
 }
 
@@ -208,7 +219,7 @@ func create(ps ParamSet, prefix string) (cs []Cfg) {
 							for _, sampleSize := range ps.SampleSizes {
 								for _, sampleTime := range ps.SampleTimes {
 									for _, sampleRepl := range ps.SampleRepls {
-										for _, sampleMaxl := range ps.Samplemaxls {
+										for _, sampleMaxl := range ps.CovMaxls {
 											for _, fitnessRate := range ps.FitnessRates {
 												for _, fitnessScale := range ps.FitnessScales {
 													for _, fitnessShape := range ps.FitnessShapes {
@@ -242,7 +253,10 @@ func create(ps ParamSet, prefix string) (cs []Cfg) {
 															Size:       sampleSize,
 															Time:       sampleTime,
 															Replicates: sampleRepl,
-															Maxl:       sampleMaxl,
+														}
+
+														cov := Cov{
+															Maxl: sampleMaxl,
 														}
 
 														// create fitness
@@ -269,6 +283,7 @@ func create(ps ParamSet, prefix string) (cs []Cfg) {
 															Fitness:    fit,
 															Output:     out,
 															Linkage:    lin,
+															Cov:        cov,
 														}
 
 														cs = append(cs, cfg)
