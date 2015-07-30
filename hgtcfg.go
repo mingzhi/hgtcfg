@@ -210,34 +210,26 @@ func parse(filename string) (c ParamSet) {
 
 func create(ps ParamSet, prefix string) (cs []Cfg) {
 	count := 0
-	zeroFitness := false
-	zeroTransfer := false
 	for _, size := range ps.Sizes {
 		for _, length := range ps.Lengths {
 			for _, mutationRate := range ps.MutationRates {
 				for _, transferRate := range ps.TransferRates {
-					for _, transferFrag := range ps.TransferFrags {
-						if transferRate == 0 || transferFrag == 0 {
-							if zeroTransfer {
-								continue
-							} else {
-								zeroTransfer = true
-							}
-						}
+					fragments := ps.TransferFrags
+					if transferRate == 0 {
+						fragments = []int{0}
+					}
+					for _, transferFrag := range fragments {
 						for _, transferDist := range ps.TransferDists {
 							for _, sampleSize := range ps.SampleSizes {
 								for _, sampleTime := range ps.SampleTimes {
 									for _, sampleRepl := range ps.SampleRepls {
 										for _, sampleMaxl := range ps.CovMaxls {
 											for _, fitnessRate := range ps.FitnessRates {
-												for _, fitnessScale := range ps.FitnessScales {
-													if fitnessRate == 0 || fitnessScale == 0 {
-														if zeroFitness {
-															continue
-														} else {
-															zeroFitness = true
-														}
-													}
+												fitnessScales := ps.FitnessScales
+												if fitnessRate == 0 {
+													fitnessScales = []float64{0}
+												}
+												for _, fitnessScale := range fitnessScales {
 													for _, fitnessShape := range ps.FitnessShapes {
 														// create population
 														pop := Population{
