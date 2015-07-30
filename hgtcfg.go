@@ -298,7 +298,7 @@ func create(ps ParamSet, prefix string) (cs []Cfg) {
 														}
 
 														genome := Genome{}
-														genome.AlphabetSize = 4
+														genome.AlphabetSize = ps.AlphabetSize
 
 														cfg := Cfg{
 															Population: pop,
