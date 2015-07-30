@@ -24,6 +24,7 @@ type ParamSet struct {
 	FitnessShapes  []float64
 	FitnessCoupled int
 	Model          int
+	AlphabetSize   int
 }
 
 type Cfg struct {
@@ -35,11 +36,13 @@ type Cfg struct {
 	Output     Output
 	Linkage    Linkage
 	Cov        Cov
+	Genome     Genome
 }
 
 func (c Cfg) String() string {
 	var b bytes.Buffer
 	fmt.Fprintln(&b, c.Population)
+	fmt.Fprintln(&b, c.Genome)
 	fmt.Fprintln(&b, c.Mutation)
 	fmt.Fprintln(&b, c.Transfer)
 	fmt.Fprintln(&b, c.Sample)
@@ -47,6 +50,17 @@ func (c Cfg) String() string {
 	fmt.Fprintln(&b, c.Output)
 	fmt.Fprintln(&b, c.Linkage)
 	fmt.Fprintln(&b, c.Cov)
+	return b.String()
+}
+
+type Genome struct {
+	AlphabetSize int
+}
+
+func (g Genome) String() string {
+	var b bytes.Buffer
+	fmt.Fprintf(&b, "[genome]\n")
+	fmt.Fprintf(&b, "alphabet_size = %d\n", g.AlphabetSize)
 	return b.String()
 }
 
@@ -283,6 +297,9 @@ func create(ps ParamSet, prefix string) (cs []Cfg) {
 															Size: transferFrag,
 														}
 
+														genome := Genome{}
+														genome.AlphabetSize = 4
+
 														cfg := Cfg{
 															Population: pop,
 															Mutation:   mut,
@@ -292,6 +309,7 @@ func create(ps ParamSet, prefix string) (cs []Cfg) {
 															Output:     out,
 															Linkage:    lin,
 															Cov:        cov,
+															Genome:     genome,
 														}
 
 														cs = append(cs, cfg)
