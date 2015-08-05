@@ -182,6 +182,7 @@ var factor int
 var message string
 var replicates int
 var mpirun bool
+var exec string
 
 func init() {
 	flag.StringVar(&prefix, "prefix", "test", "prefix")
@@ -192,6 +193,7 @@ func init() {
 	flag.IntVar(&factor, "factor", 1, "factor multiple to generations")
 	flag.IntVar(&replicates, "r", 1, "replicates")
 	flag.BoolVar(&mpirun, "mpi", false, "mpi run?")
+	flag.StringVar(&exec, "exec", "hgt_simu", "exec name")
 	flag.Parse()
 	if flag.NArg() <= 0 {
 		fmt.Println("need config file!")
@@ -387,9 +389,9 @@ func writePbs(c Cfg) {
 	w.WriteString(fmt.Sprintf("cd %s\n", wd))
 	if mpirun {
 		w.WriteString(fmt.Sprintf("module load openmpi/intel/1.6.5\n"))
-		w.WriteString(fmt.Sprintf("mpirun -n %d hgt_mpi_moran_const -C %s\n", ppn*nodes, c.Output.Prefix+".cfg.ini"))
+		w.WriteString(fmt.Sprintf("mpirun -n %d %s -C %s\n", ppn*nodes, exec, c.Output.Prefix+".cfg.ini"))
 	} else {
-		w.WriteString(fmt.Sprintf("hgt_mpi_moran_const -C %s\n", c.Output.Prefix+".cfg.ini"))
+		w.WriteString(fmt.Sprintf("%s -C %s\n", exec, c.Output.Prefix+".cfg.ini"))
 	}
 
 }
