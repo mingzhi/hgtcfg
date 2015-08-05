@@ -180,6 +180,7 @@ var ppn int
 var walltime int
 var factor int
 var message string
+var replicates int
 
 func init() {
 	flag.StringVar(&prefix, "prefix", "test", "prefix")
@@ -188,6 +189,7 @@ func init() {
 	flag.IntVar(&ppn, "ppn", 20, "ppn")
 	flag.IntVar(&walltime, "walltime", 48, "walltime in hours")
 	flag.IntVar(&factor, "factor", 1, "factor multiple to generations")
+	flag.IntVar(&replicates, "r", 1, "replicates")
 	flag.Parse()
 	if flag.NArg() <= 0 {
 		fmt.Println("need config file!")
@@ -311,9 +313,10 @@ func create(ps ParamSet, prefix string) (cs []Cfg) {
 															Cov:        cov,
 															Genome:     genome,
 														}
-
-														cs = append(cs, cfg)
-														count++
+														for i := 0; i < replicates; i++ {
+															cs = append(cs, cfg)
+															count++
+														}
 													}
 												}
 											}
