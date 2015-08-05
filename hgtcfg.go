@@ -181,15 +181,17 @@ var walltime int
 var factor int
 var message string
 var replicates int
+var mpirun bool
 
 func init() {
 	flag.StringVar(&prefix, "prefix", "test", "prefix")
 	flag.StringVar(&message, "message", "a", "message")
 	flag.IntVar(&nodes, "nodes", 1, "nodes")
-	flag.IntVar(&ppn, "ppn", 20, "ppn")
+	flag.IntVar(&ppn, "ppn", 1, "ppn")
 	flag.IntVar(&walltime, "walltime", 48, "walltime in hours")
 	flag.IntVar(&factor, "factor", 1, "factor multiple to generations")
 	flag.IntVar(&replicates, "r", 1, "replicates")
+	flag.BoolVar(&mpirun, "mpi", false, "mpi run?")
 	flag.Parse()
 	if flag.NArg() <= 0 {
 		fmt.Println("need config file!")
@@ -382,9 +384,14 @@ func writePbs(c Cfg) {
 	w.WriteString(fmt.Sprintf("#PBS -l walltime=%d:00:00\n", walltime))
 	w.WriteString(fmt.Sprintf("#PBS -M ml3365@nyu.edu\n"))
 	w.WriteString(fmt.Sprintf("#PBS -m %s\n", message))
-	w.WriteString(fmt.Sprintf("module load openmpi/intel/1.6.5\n"))
 	w.WriteString(fmt.Sprintf("cd %s\n", wd))
-	w.WriteString(fmt.Sprintf("mpirun -n %d hgt_mpi_moran_const -C %s\n", ppn*nodes, c.Output.Prefix+".cfg.ini"))
+	if mpirun {
+		w.WriteString(fmt.Sprintf("module load openmpi/intel/1.6.5\n"))
+		w.WriteString(fmt.Sprintf("mpirun -n %d hgt_mpi_moran_const -C %s\n", ppn*nodes, c.Output.Prefix+".cfg.ini"))
+	} else {
+		w.WriteString(fmt.Sprintf("hgt_mpi_moran_const -C %s\n", c.Output.Prefix+".cfg.ini"))
+	}
+
 }
 
 func writeQSub(cfgs []Cfg) {
