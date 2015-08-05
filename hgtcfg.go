@@ -291,10 +291,6 @@ func create(ps ParamSet, prefix string) (cs []Cfg) {
 															Coupled: ps.FitnessCoupled,
 														}
 
-														out := Output{
-															Prefix: fmt.Sprintf("%s_individual_%d", prefix, count),
-														}
-
 														lin := Linkage{
 															Size: transferFrag,
 														}
@@ -308,12 +304,12 @@ func create(ps ParamSet, prefix string) (cs []Cfg) {
 															Transfer:   tra,
 															Sample:     smp,
 															Fitness:    fit,
-															Output:     out,
 															Linkage:    lin,
 															Cov:        cov,
 															Genome:     genome,
 														}
 														for i := 0; i < replicates; i++ {
+															cfg.Output.Prefix = fmt.Sprintf("%s_individual_%d", prefix, count)
 															cs = append(cs, cfg)
 															count++
 														}
