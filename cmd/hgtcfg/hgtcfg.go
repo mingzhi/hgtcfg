@@ -75,89 +75,92 @@ func create(ps ParamSet, prefix string) (cs []Cfg) {
 					}
 					for _, transferFrag := range fragments {
 						for _, transferDist := range ps.TransferDists {
-							for _, sampleSize := range ps.SampleSizes {
-								for _, sampleTime := range ps.SampleTimes {
-									for _, sampleRepl := range ps.SampleRepls {
-										for _, sampleMaxl := range ps.CovMaxls {
-											for _, fitnessRate := range ps.FitnessRates {
-												fitnessScales := ps.FitnessScales
-												for _, fitnessScale := range fitnessScales {
-													for _, fitnessShape := range ps.FitnessShapes {
-														// create population
-														if fitnessRate == 0 {
-															if fitnessScale != 0 {
-																continue
+							for _, transferEff := range ps.TransferEffs {
+								for _, sampleSize := range ps.SampleSizes {
+									for _, sampleTime := range ps.SampleTimes {
+										for _, sampleRepl := range ps.SampleRepls {
+											for _, sampleMaxl := range ps.CovMaxls {
+												for _, fitnessRate := range ps.FitnessRates {
+													fitnessScales := ps.FitnessScales
+													for _, fitnessScale := range fitnessScales {
+														for _, fitnessShape := range ps.FitnessShapes {
+															// create population
+															if fitnessRate == 0 {
+																if fitnessScale != 0 {
+																	continue
+																}
 															}
-														}
-														if fitnessScale == 0 {
-															if fitnessRate != 0 {
-																continue
+															if fitnessScale == 0 {
+																if fitnessRate != 0 {
+																	continue
+																}
 															}
-														}
-														pop := Population{
-															Size:   size,
-															Length: length,
-															Model:  ps.Model,
-														}
+															pop := Population{
+																Size:   size,
+																Length: length,
+																Model:  ps.Model,
+															}
 
-														if ps.Model > 0 {
-															pop.Generation = pop.Size * factor
-														} else {
-															pop.Generation = pop.Size * pop.Size * factor
-														}
+															if ps.Model > 0 {
+																pop.Generation = pop.Size * factor
+															} else {
+																pop.Generation = pop.Size * pop.Size * factor
+															}
 
-														// create mutation
-														mut := Mutation{
-															Rate: mutationRate,
-														}
+															// create mutation
+															mut := Mutation{
+																Rate: mutationRate,
+															}
 
-														// create transfer
-														tra := Transfer{
-															Rate:         transferRate,
-															Frag:         transferFrag,
-															Distribution: transferDist,
-														}
+															// create transfer
+															tra := Transfer{
+																Rate:         transferRate,
+																Frag:         transferFrag,
+																Distribution: transferDist,
+																Efficiency:   transferEff,
+															}
 
-														// create sample
-														smp := Sample{
-															Size:       sampleSize,
-															Time:       sampleTime,
-															Replicates: sampleRepl,
-														}
+															// create sample
+															smp := Sample{
+																Size:       sampleSize,
+																Time:       sampleTime,
+																Replicates: sampleRepl,
+															}
 
-														cov := Cov{
-															Maxl: sampleMaxl,
-														}
+															cov := Cov{
+																Maxl: sampleMaxl,
+															}
 
-														// create fitness
-														fit := Fitness{
-															Rate:    fitnessRate,
-															Scale:   fitnessScale,
-															Shape:   fitnessShape,
-															Coupled: ps.FitnessCoupled,
-														}
+															// create fitness
+															fit := Fitness{
+																Rate:    fitnessRate,
+																Scale:   fitnessScale,
+																Shape:   fitnessShape,
+																Coupled: ps.FitnessCoupled,
+															}
 
-														lin := Linkage{
-															Size: 0,
-														}
+															lin := Linkage{
+																Size: 0,
+															}
 
-														genome := Genome{}
-														genome.AlphabetSize = ps.AlphabetSize
+															genome := Genome{}
+															genome.AlphabetSize = ps.AlphabetSize
 
-														cfg := Cfg{
-															Population: pop,
-															Mutation:   mut,
-															Transfer:   tra,
-															Sample:     smp,
-															Fitness:    fit,
-															Linkage:    lin,
-															Cov:        cov,
-															Genome:     genome,
-														}
-														for i := 0; i < replicates; i++ {
-															cfg.Output.Prefix = fmt.Sprintf("%s_individual_%d", prefix, count)
-															cs = append(cs, cfg)
-															count++
+															cfg := Cfg{
+																Population: pop,
+																Mutation:   mut,
+																Transfer:   tra,
+																Sample:     smp,
+																Fitness:    fit,
+																Linkage:    lin,
+																Cov:        cov,
+																Genome:     genome,
+															}
+															for i := 0; i < replicates; i++ {
+																cfg.Output.Prefix = fmt.Sprintf("%s_individual_%d", prefix, count)
+																cs = append(cs, cfg)
+																count++
+															}
 														}
 													}
 												}
