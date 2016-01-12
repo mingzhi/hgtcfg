@@ -12,6 +12,7 @@ type ParamSet struct {
 	TransferRates  []float64
 	TransferFrags  []int
 	TransferDists  []int
+	TransferEffs   []float64
 	SampleSizes    []int
 	SampleTimes    []int
 	SampleRepls    []int
@@ -87,6 +88,7 @@ type Transfer struct {
 	Rate         float64
 	Frag         int
 	Distribution int
+	Efficiency   float64
 }
 
 func (t Transfer) String() string {
@@ -95,6 +97,7 @@ func (t Transfer) String() string {
 	fmt.Fprintf(&b, "rate = %g\n", t.Rate)
 	fmt.Fprintf(&b, "fragment = %d\n", t.Frag)
 	fmt.Fprintf(&b, "distribution = %d\n", t.Distribution)
+	fmt.Fprintf(&b, "efficiency = %g\n", t.Efficiency)
 	return b.String()
 
 }
