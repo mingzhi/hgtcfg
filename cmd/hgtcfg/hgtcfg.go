@@ -81,12 +81,19 @@ func create(ps ParamSet, prefix string) (cs []Cfg) {
 										for _, sampleMaxl := range ps.CovMaxls {
 											for _, fitnessRate := range ps.FitnessRates {
 												fitnessScales := ps.FitnessScales
-												if fitnessRate == 0 {
-													fitnessScales = []float64{0}
-												}
 												for _, fitnessScale := range fitnessScales {
 													for _, fitnessShape := range ps.FitnessShapes {
 														// create population
+														if fitnessRate == 0 {
+															if fitnessScale != 0 {
+																continue
+															}
+														}
+														if fitnessScale == 0 {
+															if fitnessRate != 0 {
+																continue
+															}
+														}
 														pop := Population{
 															Size:   size,
 															Length: length,
@@ -131,7 +138,7 @@ func create(ps ParamSet, prefix string) (cs []Cfg) {
 														}
 
 														lin := Linkage{
-															Size: transferFrag,
+															Size: 0,
 														}
 
 														genome := Genome{}
