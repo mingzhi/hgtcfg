@@ -5,6 +5,7 @@
 	"TransferRates": [0.001],
 	"TransferFrags": [10],
 	"TransferDists": [0],
+	"TransferEffs": [0, 0.1],
 	"SampleSizes": [100],
 	"SampleTimes": [10],
 	"SampleRepls": [1],

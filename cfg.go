@@ -6,23 +6,24 @@ import (
 )
 
 type ParamSet struct {
-	Sizes          []int
-	Lengths        []int
-	MutationRates  []float64
-	TransferRates  []float64
-	TransferFrags  []int
-	TransferDists  []int
-	TransferEffs   []float64
-	SampleSizes    []int
-	SampleTimes    []int
-	SampleRepls    []int
-	CovMaxls       []int
-	FitnessRates   []float64
-	FitnessScales  []float64
-	FitnessShapes  []float64
-	FitnessCoupled int
-	Model          int
-	AlphabetSize   int
+	Sizes           []int
+	Lengths         []int
+	MutationRates   []float64
+	TransferRates   []float64
+	TransferFrags   []int
+	TransferDists   []int
+	TransferEffs    []float64
+	TransferEffLens []int
+	SampleSizes     []int
+	SampleTimes     []int
+	SampleRepls     []int
+	CovMaxls        []int
+	FitnessRates    []float64
+	FitnessScales   []float64
+	FitnessShapes   []float64
+	FitnessCoupled  int
+	Model           int
+	AlphabetSize    int
 }
 
 type Cfg struct {
@@ -89,6 +90,7 @@ type Transfer struct {
 	Frag         int
 	Distribution int
 	Efficiency   float64
+	EffLen       int
 }
 
 func (t Transfer) String() string {
@@ -98,6 +100,7 @@ func (t Transfer) String() string {
 	fmt.Fprintf(&b, "fragment = %d\n", t.Frag)
 	fmt.Fprintf(&b, "distribution = %d\n", t.Distribution)
 	fmt.Fprintf(&b, "efficiency = %g\n", t.Efficiency)
+	fmt.Fprintf(&b, "efficiency_length = %d\n", t.EffLen)
 	return b.String()
 
 }
