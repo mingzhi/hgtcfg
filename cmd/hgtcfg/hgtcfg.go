@@ -75,8 +75,8 @@ func create(ps ParamSet, prefix string) (cs []Cfg) {
 					}
 					for _, transferFrag := range fragments {
 						for _, transferDist := range ps.TransferDists {
-							for _, transferEff := range ps.TransferEffs {
-								for _, transferEffLen := range ps.TransferEffLens {
+							for _, transferEffLen := range ps.TransferEffLens {
+								for _, transferEff := range ps.TransferEffs {
 									for _, sampleSize := range ps.SampleSizes {
 										for _, sampleTime := range ps.SampleTimes {
 											for _, sampleRepl := range ps.SampleRepls {
