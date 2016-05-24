@@ -158,6 +158,8 @@ func create(ps ParamSet, prefix string) (cs []Cfg) {
 																	Cov:        cov,
 																	Genome:     genome,
 																}
+
+																cfg.Output.Save = ps.Save
 																for i := 0; i < replicates; i++ {
 																	cfg.Output.Prefix = fmt.Sprintf("%s_individual_%d", prefix, count)
 																	cs = append(cs, cfg)

@@ -24,6 +24,7 @@ type ParamSet struct {
 	FitnessCoupled  int
 	Model           int
 	AlphabetSize    int
+	Save            int
 }
 
 type Cfg struct {
@@ -157,12 +158,14 @@ func (l Linkage) String() string {
 
 type Output struct {
 	Prefix string
+	Save   int
 }
 
 func (o Output) String() string {
 	var b bytes.Buffer
 	fmt.Fprintln(&b, "[output]")
 	fmt.Fprintf(&b, "prefix = %s\n", o.Prefix)
+	fmt.Fprintf(&b, "save = %d\n", o.Save)
 	return b.String()
 }
 
