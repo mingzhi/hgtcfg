@@ -17,6 +17,9 @@ type ParamSet struct {
 	SampleSizes     []int
 	SampleTimes     []int
 	SampleRepls     []int
+	SampleBias      int
+	ClusterSize     int
+	ClusterNumber   int
 	CovMaxls        []int
 	FitnessRates    []float64
 	FitnessScales   []float64
@@ -124,9 +127,12 @@ func (p Population) String() string {
 }
 
 type Sample struct {
-	Size       int
-	Time       int
-	Replicates int
+	Size          int
+	Time          int
+	Replicates    int
+	ClusterNumber int
+	ClusterSize   int
+	Bias          int
 }
 
 func (s Sample) String() string {
@@ -135,6 +141,9 @@ func (s Sample) String() string {
 	fmt.Fprintf(&b, "size = %d\n", s.Size)
 	fmt.Fprintf(&b, "time = %d\n", s.Time)
 	fmt.Fprintf(&b, "replicates = %d\n", s.Replicates)
+	fmt.Fprintf(&b, "bias = %d\n", s.Bias)
+	fmt.Fprintf(&b, "cluster_size = %d\n", s.ClusterSize)
+	fmt.Fprintf(&b, "cluster_number = %d\n", s.ClusterNumber)
 	return b.String()
 }
 

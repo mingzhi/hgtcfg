@@ -4,8 +4,9 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	. "github.com/mingzhi/hgtcfg"
 	"os"
+
+	. "github.com/mingzhi/hgtcfg"
 )
 
 var cfgFileName string
@@ -124,9 +125,12 @@ func create(ps ParamSet, prefix string) (cs []Cfg) {
 
 																// create sample
 																smp := Sample{
-																	Size:       sampleSize,
-																	Time:       sampleTime,
-																	Replicates: sampleRepl,
+																	Size:          sampleSize,
+																	Time:          sampleTime,
+																	Replicates:    sampleRepl,
+																	ClusterNumber: ps.ClusterNumber,
+																	Bias:          ps.SampleBias,
+																	ClusterSize:   ps.ClusterSize,
 																}
 
 																cov := Cov{
