@@ -146,7 +146,7 @@ func create(ps ParamSet, prefix string) (cs []Cfg) {
 																}
 
 																lin := Linkage{
-																	Size: 0,
+																	Size: ps.LinkageSize,
 																}
 
 																genome := Genome{}

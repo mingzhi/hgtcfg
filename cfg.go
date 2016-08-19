@@ -20,6 +20,7 @@ type ParamSet struct {
 	SampleBias      int
 	ClusterSize     int
 	ClusterNumber   int
+	LinkageSize     int
 	CovMaxls        []int
 	FitnessRates    []float64
 	FitnessScales   []float64
